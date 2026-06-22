@@ -61,10 +61,11 @@ const Navbar = () => {
             <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled ? 'pt-4 px-4 sm:px-6 md:px-8' : 'pt-0 px-0'}`}>
                 <nav
                     ref={menuRef}
-                    className={`mx-auto w-full relative transition-all duration-500 ease-in-out font-poppins ${isScrolled
-                            ? 'bg-white/95 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.08)] rounded-full px-6 md:px-10 lg:px-12 py-3 max-w-6xl border border-gray-100/50'
+                    className={`mx-auto w-full relative transition-all duration-500 ease-in-out ${
+                        isScrolled 
+                            ? 'bg-white/80 backdrop-blur-lg backdrop-saturate-150 shadow-[0_8px_30px_rgb(0,0,0,0.10)] rounded-full px-6 md:px-10 lg:px-12 py-3 max-w-[1427px] border border-white/60' 
                             : 'bg-white px-6 md:px-12 lg:px-24 py-5 border-b border-gray-100 max-w-full'
-                        }`}
+                    }`}
                 >
                     <div className="flex items-center justify-between">
                         {/* Bagian Logo */}
@@ -80,7 +81,7 @@ const Navbar = () => {
                                 <a
                                     key={i}
                                     href={link.href}
-                                    className="relative text-gray-800 font-medium hover:text-red-600 transition-colors py-1 nav-link-animated"
+                                    className="relative text-black font-medium hover:text-red-600 transition-colors py-1 nav-link-animated"
                                 >
                                     {link.label}
                                 </a>
@@ -116,13 +117,13 @@ const Navbar = () => {
                     </div>
 
                     {/* Overlay Menu Mobile */}
-                    <div className={`mobile-menu absolute left-0 w-full bg-white shadow-lg z-50 lg:hidden ${isMobileMenuOpen ? 'menu-open' : ''} ${isScrolled ? 'top-full mt-3 rounded-2xl border border-gray-100 overflow-hidden' : 'top-full border-t border-gray-100'}`}>
+                    <div className={`mobile-menu absolute left-0 w-full shadow-lg z-50 lg:hidden ${isMobileMenuOpen ? 'menu-open' : ''} ${isScrolled ? 'top-full mt-3 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-xl backdrop-saturate-150 overflow-hidden' : 'bg-white top-full border-t border-gray-100'}`}>
                         <div className="flex flex-col items-center gap-1 py-6">
                             {navLinks.map((link, i) => (
                                 <a
                                     key={i}
                                     href={link.href}
-                                    className="mobile-link w-full text-center py-3 text-gray-800 font-medium hover:text-red-600 hover:bg-red-50 text-lg"
+                                    className="mobile-link w-full text-center py-3 text-gray-900 font-medium hover:text-red-600 hover:bg-white/30 text-lg"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     {link.label}
