@@ -99,28 +99,28 @@ const Hero = () => {
             </div>
 
             {/* Hero Image Section as Background */}
-            <div 
+            <div
                 className="w-full mx-auto max-w-7xl mb-8 relative mt-16 rounded-2xl bg-no-repeat bg-cover bg-bottom flex flex-col items-center justify-start min-h-[350px] md:min-h-[450px] lg:min-h-[650px]"
                 style={{ backgroundImage: `url(${hero})` }}
             >
                 {/* Search Bar Overlapping */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-3/4 max-w-[684px] z-10">
                     <div className="bg-white/80 backdrop-blur-lg backdrop-saturate-150 rounded-3xl flex items-center px-6 py-3 mt-8 md:py-4 shadow-[3px_3px_3px_rgba(0,0,0,0.1)] border border-black/10 focus-within:bg-white/60 focus-within:ring-2 focus-within:ring-white/80 transition-all duration-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-400 shrink-0 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-400 shrink-0 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                        <input 
-                            type="text" 
-                            placeholder="Jelajahi Sejarah, budaya, kuliner, dll" 
+                        <input
+                            type="text"
+                            placeholder="Jelajahi Sejarah, budaya, kuliner, dll"
                             className="w-full bg-transparent outline-none text-gray-900 placeholder-gray-400 text-base md:text-lg font-medium"
                         />
                     </div>
                 </div>
 
-                {/* Kartu-kartu Glassmorphism yang menindih bagian bawah hero image */}
+
                 <div className="absolute left-1/2 -translate-x-1/2 translate-y-1/3 w-full max-w-6xl px-4 z-10">
                     <div className="flex flex-col md:flex-row items-stretch justify-center gap-4 md:gap-3">
-                        
+
                         {/* Kartu Batavia */}
                         <div className="w-full md:w-[281px] h-[273px] lg:mb-68 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
                             <h3 className="text-xl font-bold text-black">Batavia</h3>
@@ -129,7 +129,7 @@ const Hero = () => {
                             </p>
                             <a href="#" className="mt-auto inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-full transition-colors duration-200">
                                 Mulai Jelajah
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
                             </a>
                         </div>
 
@@ -141,7 +141,7 @@ const Hero = () => {
                             </p>
                             <a href="#" className="mt-auto inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-full transition-colors duration-200">
                                 Mulai Jelajah
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
                             </a>
                         </div>
 
@@ -153,7 +153,7 @@ const Hero = () => {
                             </p>
                             <a href="#" className="mt-auto inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-full transition-colors duration-200">
                                 Mulai Jelajah
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
                             </a>
                         </div>
 
@@ -165,7 +165,7 @@ const Hero = () => {
                             </p>
                             <a href="#" className="mt-auto inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-full transition-colors duration-200">
                                 Mulai Jelajah
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
                             </a>
                         </div>
 
@@ -173,8 +173,9 @@ const Hero = () => {
                 </div>
             </div>
 
-            {/* Spacer agar konten di bawah hero tidak tertimpa kartu */}
-            <div className="h-24 md:h-32 lg:h-40 w-full"></div>        </section>
+            {/* Spacer biar konten di bawah hero ga ketimpa kartu */}
+            <div className="h-24 md:h-32 lg:h-40 w-full"></div>
+        </section>
     );
 };
 
