@@ -117,15 +117,64 @@ const Hero = () => {
                     </div>
                 </div>
 
-                {/* Kontainer untuk kartu-kartu yang nanti akan ditambahkan di atas background ini */}
-                <div className="w-full h-full flex items-end justify-center pb-10 px-4 mt-20">
-                    {/* Placeholder untuk Cards (Batavia, Jayakarta, Sunda Kelapa) */}
+                {/* Kartu-kartu Glassmorphism yang menindih bagian bawah hero image */}
+                <div className="absolute left-1/2 -translate-x-1/2 translate-y-1/3 w-full max-w-6xl px-4 z-10">
+                    <div className="flex flex-col md:flex-row items-stretch justify-center gap-4 md:gap-3">
+                        
+                        {/* Kartu Batavia */}
+                        <div className="w-full md:w-[281px] h-[273px] lg:mb-68 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
+                            <h3 className="text-xl font-bold text-black">Batavia</h3>
+                            <p className="text-sm text-black leading-relaxed">
+                                Batavia adalah nama yang diberikan oleh penjajah Belanda untuk kota pelabuhan yang kemudian berkembang menjadi ibu kota Hindia Belanda
+                            </p>
+                            <a href="#" className="mt-auto inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-full transition-colors duration-200">
+                                Mulai Jelajah
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </a>
+                        </div>
+
+                        {/* Kartu Jayakarta */}
+                        <div className="w-full md:w-[281px] h-[230px] lg:mt-15 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
+                            <h3 className="text-xl font-bold text-black">Jayakarta</h3>
+                            <p className="text-sm text-black leading-relaxed">
+                                Jayakarta adalah nama lama dari kota Jakarta sebelum diubah menjadi Batavia pada masa penjajahan Belanda
+                            </p>
+                            <a href="#" className="mt-auto inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-full transition-colors duration-200">
+                                Mulai Jelajah
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </a>
+                        </div>
+
+                        {/* Kartu Sunda Kelapa */}
+                        <div className="w-full md:w-[281px] h-[249px] lg:mt-3 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
+                            <h3 className="text-xl font-bold text-black">Sunda Kelapa</h3>
+                            <p className="text-sm text-black leading-relaxed">
+                                Sunda Kelapa adalah pelabuhan tua bersejarah di Jakarta yang terletak di muara Sungai Ciliwung, Jakarta Utara
+                            </p>
+                            <a href="#" className="mt-auto inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-full transition-colors duration-200">
+                                Mulai Jelajah
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </a>
+                        </div>
+
+                        {/* Kartu Jakarta Merdeka */}
+                        <div className="w-full md:w-[281px] h-[249px] lg:-mt-15 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
+                            <h3 className="text-xl font-bold text-black">Jakarta Merdeka</h3>
+                            <p className="text-sm text-black leading-relaxed">
+                                Jakarta adalah nama ibu kota Republik Indonesia yang sebelumnya dikenal dengan nama Batavia pada masa penjajahan Belanda
+                            </p>
+                            <a href="#" className="mt-auto inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-full transition-colors duration-200">
+                                Mulai Jelajah
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </a>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
-
-
-        </section>
+            {/* Spacer agar konten di bawah hero tidak tertimpa kartu */}
+            <div className="h-24 md:h-32 lg:h-40 w-full"></div>        </section>
     );
 };
 
