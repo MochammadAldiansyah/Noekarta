@@ -1,4 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 // impor gambar
 import img1 from '../assets/hero-title1.png';
@@ -19,6 +24,27 @@ const Hero = () => {
 
     const containerRef = useRef(null);
     const imgRef = useRef(null);
+    const heroRef = useRef(null);
+
+    // Animasi GSAP 
+    useGSAP(() => {
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: heroRef.current,
+                start: 0, 
+                end: "+=150%", 
+                pin: true,
+                anticipatePin: 1,
+                scrub: 1,
+            }
+        });
+
+        // Animasi fade in & slide up dari bawah untuk 4 kartu
+        tl.fromTo(".card-reveal", 
+            { y: 150, opacity: 0 }, 
+            { y: 0, opacity: 1, stagger: 0.15, duration: 1, ease: "power2.out" }
+        );
+    }, { scope: heroRef });
 
     // Fungsi buat memperbarui lebar pembungkus
     const updateContainerWidth = (imgW, imgH) => {
@@ -70,7 +96,7 @@ const Hero = () => {
     };
 
     return (
-        <section className="w-full min-h-[85vh] flex flex-col items-center justify-start pb-20 pt-10 overflow-hidden">
+        <section ref={heroRef} className="w-full min-h-[85vh] flex flex-col items-center justify-start pb-20 pt-10 overflow-hidden">
             <div className="flex flex-col  px-4 md:px-6 items-center justify-center text-center mt-8 mb-12">
                 {/* Baris Pertama dengan Gambar Dinamis */}
                 <div className="flex items-center justify-center whitespace-nowrap gap-1 sm:gap-2 md:gap-4 lg:gap-5 xl:gap-6 text-2xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black tracking-tight leading-[1.2] md:leading-[1.1]">
@@ -83,7 +109,7 @@ const Hero = () => {
                         <img
                             ref={imgRef}
                             src={images[currentIndex]}
-                            className="h-full w-auto object-contain transition-opacity duration-500 ease-in-out"
+                            className="h-full w-auto object-contain transition-opacity duration-500 ease-in-out cursos-pointer select-none"
                             alt="Batavia"
                             style={{ opacity }}
                             onLoad={handleImageLoad}
@@ -122,7 +148,7 @@ const Hero = () => {
                     <div className="flex flex-col md:flex-row items-stretch justify-center gap-4 md:gap-3">
 
                         {/* Kartu Batavia */}
-                        <div className="w-full md:w-[281px] h-[273px] lg:mb-68 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
+                        <div className="card-reveal w-full md:w-[281px] h-[273px] lg:mb-68 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
                             <h3 className="text-xl font-bold text-black">Batavia</h3>
                             <p className="text-sm text-black leading-relaxed">
                                 Batavia adalah nama yang diberikan oleh penjajah Belanda untuk kota pelabuhan yang kemudian berkembang menjadi ibu kota Hindia Belanda
@@ -134,7 +160,7 @@ const Hero = () => {
                         </div>
 
                         {/* Kartu Jayakarta */}
-                        <div className="w-full md:w-[281px] h-[230px] lg:mt-15 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
+                        <div className="card-reveal w-full md:w-[281px] h-[230px] lg:mt-15 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
                             <h3 className="text-xl font-bold text-black">Jayakarta</h3>
                             <p className="text-sm text-black leading-relaxed">
                                 Jayakarta adalah nama lama dari kota Jakarta sebelum diubah menjadi Batavia pada masa penjajahan Belanda
@@ -146,7 +172,7 @@ const Hero = () => {
                         </div>
 
                         {/* Kartu Sunda Kelapa */}
-                        <div className="w-full md:w-[281px] h-[249px] lg:mt-3 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
+                        <div className="card-reveal w-full md:w-[281px] h-[249px] lg:mt-3 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
                             <h3 className="text-xl font-bold text-black">Sunda Kelapa</h3>
                             <p className="text-sm text-black leading-relaxed">
                                 Sunda Kelapa adalah pelabuhan tua bersejarah di Jakarta yang terletak di muara Sungai Ciliwung, Jakarta Utara
@@ -158,7 +184,7 @@ const Hero = () => {
                         </div>
 
                         {/* Kartu Jakarta Merdeka */}
-                        <div className="w-full md:w-[281px] h-[249px] lg:-mt-15 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
+                        <div className="card-reveal w-full md:w-[281px] h-[249px] lg:-mt-15 shrink-0 bg-white/70 backdrop-blur-xs backdrop-saturate-150 rounded-[20px] p-[25px] border border-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex flex-col gap-[10px] hover:bg-white/75 transition-all duration-300">
                             <h3 className="text-xl font-bold text-black">Jakarta Merdeka</h3>
                             <p className="text-sm text-black leading-relaxed">
                                 Jakarta adalah nama ibu kota Republik Indonesia yang sebelumnya dikenal dengan nama Batavia pada masa penjajahan Belanda
