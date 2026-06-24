@@ -41,8 +41,9 @@ const timelineCards = [
     },
 ];
 
-const SCROLL_STEP_DELTA = 18;
-const SCROLL_STEP_COOLDOWN = 260;
+const SCROLL_STEP_DELTA = 35;
+const TITLE_SCROLL_COOLDOWN = 1000;
+const CARD_SCROLL_COOLDOWN = 500;
 
 const Hero = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -93,7 +94,7 @@ const Hero = () => {
             setCurrentIndex(normalizedIndex);
             setOpacity(1);
             fadeTimeoutRef.current = null;
-        }, 260);
+        }, 400);
     }, []);
 
     const applyCardStage = useCallback((nextStage) => {
@@ -178,7 +179,9 @@ const Hero = () => {
     const stepScrollSequence = useCallback((direction) => {
         const now = window.performance.now();
 
-        if (sequencePhaseRef.current === 'done' || now - lastScrollStepAtRef.current < SCROLL_STEP_COOLDOWN) {
+        const cooldown = sequencePhaseRef.current === 'title' ? TITLE_SCROLL_COOLDOWN : CARD_SCROLL_COOLDOWN;
+
+        if (sequencePhaseRef.current === 'done' || now - lastScrollStepAtRef.current < cooldown) {
             return;
         }
 
@@ -298,7 +301,7 @@ const Hero = () => {
     return (
         <section ref={heroRef} className="w-full min-h-[85vh] flex flex-col items-center justify-start pb-20 pt-10 overflow-hidden">
             <div className="flex flex-col  px-4 md:px-6 items-center justify-center text-center mt-8 mb-12">
-                {/* Baris Pertama dengan Gambar Dinamis */}
+       
                 <div className="flex items-center justify-center whitespace-nowrap gap-1 sm:gap-2 md:gap-4 lg:gap-5 xl:gap-6 text-2xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black tracking-tight leading-[1.2] md:leading-[1.1]">
                     <span>Dari Jejak</span>
                     {/* Pembungkus untuk gambar. Skala disesuaikan agar tidak melebihi batas */}
@@ -360,7 +363,7 @@ const Hero = () => {
                                     <p className="text-sm text-black leading-relaxed">
                                         {card.description}
                                     </p>
-                                    <a href="#" className="mt-auto inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-full transition-colors duration-200">
+                                    <a href="#" className="mt-auto inline-flex items-center justify-center gap-2 bg-red-500 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-full transition-colors duration-200">
                                         Mulai Jelajah
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
                                     </a>
