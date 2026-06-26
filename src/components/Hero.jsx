@@ -299,7 +299,7 @@ const Hero = () => {
     };
 
     return (
-        <section ref={heroRef} className="w-full min-h-[85vh] flex flex-col items-center justify-start pb-20 pt-10 overflow-hidden">
+        <section ref={heroRef} className="w-full min-h-[85vh] flex flex-col items-center justify-start  pt-10 overflow-hidden">
             <div className="flex flex-col  px-4 md:px-6 items-center justify-center text-center mt-8 mb-12">
        
                 <div className="flex items-center justify-center whitespace-nowrap gap-1 sm:gap-2 md:gap-4 lg:gap-5 xl:gap-6 text-2xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black tracking-tight leading-[1.2] md:leading-[1.1]">
@@ -375,7 +375,7 @@ const Hero = () => {
             </div>
 
             {/* Spacer biar konten di bawah hero ga ketimpa kartu */}
-            <div className="h-24 md:h-32 lg:h-40 w-full"></div>
+        
         </section>
     );
 };
