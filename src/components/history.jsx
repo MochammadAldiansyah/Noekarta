@@ -232,7 +232,7 @@ const History = () => {
 
           {/* efek blur kanan*/}
           <div
-            className={`absolute top-0 -right-5 bg-gradient-to-l from-white via-white/80 bottom-12 w-32 md:w-48 pointer-events-none transition-opacity duration-500 flex items-center justify-end pr-2 md:pr-4 ${canScrollRight ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute top-0 -right-5 bg-gradient-to-l from-white via-white/80 bottom-12 w-32 md:w-48 pointer-events-none transition-opacity duration-500 hidden md:flex items-center justify-end pr-2 md:pr-4 ${canScrollRight ? 'opacity-100' : 'opacity-0'}`}
           >
           </div>
         </div>
