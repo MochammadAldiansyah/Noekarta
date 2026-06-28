@@ -24,16 +24,16 @@ const About = () => {
     <section className="pt-4 pb-30 px-4 md:px-8 max-w-7xl mx-auto">
       {/* Title Section */}
       <div className="flex justify-center mb-[20px]">
-        <img src={TitleImage} alt="Apa Itu Jakarta" className="w-[380px] h-[100px] object-contain select-none" />
+        <img src={TitleImage} alt="Apa Itu Jakarta" className="w-[500px] h-[120px] object-contain select-none" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* text sama tombol */}
         <div className="space-y-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+          <h2 className="text-[43px] font-bold text-gray-900 leading-tight">
             Jakarta, Kota sejarah<br />& inovasi
           </h2>
-          <p className="text-black text-lg leading-relaxed">
+          <p className="text-black text-2xl leading-relaxed">
             Dari pelabuhan Sunda Kelapa hingga pusat Inovasi digital Asia Tenggara,
             Jakarta memadukan warisan budaya dan semanat modern untuk masa depan
             yang lebih baik
