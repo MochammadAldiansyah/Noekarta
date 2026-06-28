@@ -63,10 +63,87 @@ const History = () => {
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [activeCard, setActiveCard] = useState(1);
 
+  const scrollTimeoutRef = useRef(null);
+  const isScrollingRef = useRef(false);
+
+  // Custom scroll buat carousel
+  const smoothScrollTo = (container, targetLeft, duration = 1000) => {
+    const startLeft = container.scrollLeft;
+    const distance = targetLeft - startLeft;
+    let startTime = null;
+
+    const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    container.style.scrollSnapType = 'none';
+
+    const animation = (currentTime) => {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      
+      container.scrollLeft = startLeft + (distance * easeInOutCubic(progress));
+
+      if (timeElapsed < duration) {
+        requestAnimationFrame(animation);
+      } else {
+  
+        container.style.scrollSnapType = 'x mandatory';
+      }
+    };
+
+    requestAnimationFrame(animation);
+  };
+
   const handleScroll = () => {
     if (scrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 5);
+      
+      // kode buat bikin trigger hovernya mati pas gerak
+      isScrollingRef.current = true;
+      scrollRef.current.style.pointerEvents = 'none';
+      
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        if (scrollRef.current) scrollRef.current.style.pointerEvents = 'auto';
+        isScrollingRef.current = false;
+      }, 300); 
+    }
+  };
+
+  const handleCardHover = (id, event) => {
+    if (isScrollingRef.current) return;
+    
+    setActiveCard(id);
+    scrollCardIntoView(event.currentTarget);
+  };
+
+  const handleCardClick = (id, event) => {
+    // Toggle: klik card yang sudah aktif → tutup (balik ke default)
+    if (activeCard === id) {
+      setActiveCard(1);
+      return;
+    }
+    setActiveCard(id);
+    scrollCardIntoView(event.currentTarget);
+  };
+
+  const scrollCardIntoView = (card) => {
+    const container = scrollRef.current;
+    if (container && card) {
+      const containerRect = container.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+
+      const isFullyVisible = (
+        cardRect.left >= containerRect.left &&
+        cardRect.right <= containerRect.right
+      );
+
+      if (!isFullyVisible) {
+        const scrollAmount = cardRect.left - containerRect.left - (containerRect.width / 2) + (cardRect.width / 2);
+        const targetLeft = container.scrollLeft + scrollAmount;
+        smoothScrollTo(container, targetLeft, 1000);
+      }
     }
   };
 
@@ -75,6 +152,7 @@ const History = () => {
     window.addEventListener('resize', handleScroll);
     return () => {
       clearTimeout(timer);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
       window.removeEventListener('resize', handleScroll);
     };
   }, []);
@@ -109,7 +187,8 @@ const History = () => {
               return (
                 <div
                   key={item.id}
-                  onMouseEnter={() => setActiveCard(item.id)}
+                  onMouseEnter={(e) => handleCardHover(item.id, e)}
+                  onClick={(e) => handleCardClick(item.id, e)}
                   className={`relative min-w-[280px] md:min-w-[320px] h-[480px] bg-white rounded-[24px] snap-center cursor-pointer transition-shadow duration-500 border border-gray-100 flex-shrink-0 ${isActive ? 'shadow-[0_20px_40px_rgb(0,0,0,0.12)]' : 'shadow-[0_4px_20px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)]'}`}
                 >
                   {/* Image Container */}
@@ -148,23 +227,10 @@ const History = () => {
             })}
           </div>
 
-          {/* tombol panah */}
+          {/* efek blur kanan*/}
           <div
-            className={`absolute top-0 -right-22 bottom-12 w-32 md:w-48 pointer-events-none transition-opacity duration-500 flex items-center justify-end pr-2 md:pr-4 ${canScrollRight ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute top-0 -right-5 bg-gradient-to-l from-white via-white/80 bottom-12 w-32 md:w-48 pointer-events-none transition-opacity duration-500 flex items-center justify-end pr-2 md:pr-4 ${canScrollRight ? 'opacity-100' : 'opacity-0'}`}
           >
-            <button
-              className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-[0_4px_20px_rgb(0,0,0,0.15)] text-[#e5252a] pointer-events-auto hover:scale-110 transition-transform duration-300 border border-gray-100"
-              onClick={() => {
-                if (scrollRef.current) {
-                  scrollRef.current.scrollBy({ left: 340, behavior: 'smooth' });
-                }
-              }}
-              aria-label="Scroll right"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
           </div>
         </div>
 
