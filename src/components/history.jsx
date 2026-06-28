@@ -66,15 +66,14 @@ const History = () => {
   const scrollTimeoutRef = useRef(null);
   const isScrollingRef = useRef(false);
 
-  // Custom scroll buat carousel
+  // Custom smooth scroll helper dengan durasi yang bisa diatur (1000ms default)
   const smoothScrollTo = (container, targetLeft, duration = 1000) => {
     const startLeft = container.scrollLeft;
     const distance = targetLeft - startLeft;
     let startTime = null;
 
+    // Easing fungsi: sangat lambat di awal dan di akhir (ease-in-out cubic)
     const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-    container.style.scrollSnapType = 'none';
 
     const animation = (currentTime) => {
       if (startTime === null) startTime = currentTime;
@@ -85,9 +84,6 @@ const History = () => {
 
       if (timeElapsed < duration) {
         requestAnimationFrame(animation);
-      } else {
-  
-        container.style.scrollSnapType = 'x mandatory';
       }
     };
 
@@ -99,7 +95,7 @@ const History = () => {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 5);
       
-      // kode buat bikin trigger hovernya mati pas gerak
+      // Mencegah hover trigger saat sedang scrolling
       isScrollingRef.current = true;
       scrollRef.current.style.pointerEvents = 'none';
       
@@ -140,9 +136,16 @@ const History = () => {
       );
 
       if (!isFullyVisible) {
-        const scrollAmount = cardRect.left - containerRect.left - (containerRect.width / 2) + (cardRect.width / 2);
+        let scrollAmount = 0;
+        
+        if (cardRect.right > containerRect.right) {
+          scrollAmount = cardRect.right - containerRect.right + 24;
+        } else if (cardRect.left < containerRect.left) {
+          scrollAmount = cardRect.left - containerRect.left - 24;
+        }
+
         const targetLeft = container.scrollLeft + scrollAmount;
-        smoothScrollTo(container, targetLeft, 1000);
+        smoothScrollTo(container, targetLeft, 800);
       }
     }
   };
@@ -179,7 +182,7 @@ const History = () => {
             ref={scrollRef}
             onScroll={handleScroll}
             onMouseLeave={() => setActiveCard(1)}
-            className="flex overflow-x-auto pb-12 pt-4 px-4 -mx-4 gap-6 hide-scrollbar snap-x snap-mandatory"
+            className="flex overflow-x-auto pb-12 pt-4 px-4 -mx-4 gap-6 hide-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {historyData.map((item) => {
@@ -189,7 +192,7 @@ const History = () => {
                   key={item.id}
                   onMouseEnter={(e) => handleCardHover(item.id, e)}
                   onClick={(e) => handleCardClick(item.id, e)}
-                  className={`relative min-w-[280px] md:min-w-[320px] h-[480px] bg-white rounded-[24px] snap-center cursor-pointer transition-shadow duration-500 border border-gray-100 flex-shrink-0 ${isActive ? 'shadow-[0_20px_40px_rgb(0,0,0,0.12)]' : 'shadow-[0_4px_20px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)]'}`}
+                  className={`relative min-w-[280px] md:min-w-[320px] h-[480px] bg-white rounded-[24px] cursor-pointer transition-shadow duration-500 border border-gray-100 flex-shrink-0 ${isActive ? 'shadow-[0_20px_40px_rgb(0,0,0,0.12)]' : 'shadow-[0_4px_20px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)]'}`}
                 >
                   {/* Image Container */}
                   <div className={`absolute transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-0 ${isActive ? 'top-5 left-5 right-5 bottom-[calc(100%-190px)]' : 'top-0 left-0 right-0 bottom-0'}`}>

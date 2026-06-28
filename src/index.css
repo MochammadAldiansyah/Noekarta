@@ -13,7 +13,7 @@ body::-webkit-scrollbar {
     display: none;
 }
 
-/* Tipografi Kustom */
+/* font Kustom */
 .font-poppins {
     font-family: 'Poppins', sans-serif;
 }
@@ -36,7 +36,7 @@ body::-webkit-scrollbar {
     width: 100%;
 }
 
-/* Garis Burger - Basis */
+/* Garis Burger */
 .burger-line {
     position: absolute;
     height: 2px;
@@ -46,17 +46,17 @@ body::-webkit-scrollbar {
     transition: all 0.3s ease-in-out;
 }
 
-/* Garis Burger - Posisi Default */
+/* Garis Burger  Posisi Default */
 .burger-line-top { transform: translateY(-8px); }
 .burger-line-mid { opacity: 1; transform: scaleX(1); }
 .burger-line-bot { transform: translateY(8px); }
 
-/* Garis Burger - Posisi Terbuka (X) */
+/* Garis Burger  Posisi Terbuka  */
 .burger-open .burger-line-top { transform: rotate(45deg) translateY(0); }
 .burger-open .burger-line-mid { opacity: 0; transform: scaleX(0); }
 .burger-open .burger-line-bot { transform: rotate(-45deg) translateY(0); }
 
-/* Menu Mobile - Slide Down */
+/* Menu Mobile  Slide Down */
 .mobile-menu {
     max-height: 0;
     opacity: 0;
@@ -69,7 +69,7 @@ body::-webkit-scrollbar {
     opacity: 1;
 }
 
-/* Tautan Menu Mobile - Staggered Fade In */
+/* link Menu Mobile  */
 .mobile-link {
     transform: translateY(-16px);
     opacity: 0;
