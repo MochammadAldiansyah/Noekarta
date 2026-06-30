@@ -63,8 +63,8 @@ const Navbar = () => {
                     ref={menuRef}
                     className={`mx-auto w-full relative transition-all duration-500 ease-in-out ${
                         isScrolled 
-                            ? 'bg-white/80 backdrop-blur-lg backdrop-saturate-150 shadow-[0_8px_30px_rgb(0,0,0,0.10)] rounded-full px-6 md:px-10 lg:px-12 py-3 max-w-[1427px] border border-white/60' 
-                            : 'bg-white px-6 md:px-12 lg:px-24 py-5 border-b border-gray-100 max-w-full'
+                            ? ' backdrop-blur-lg backdrop-saturate-150 shadow-[0_8px_30px_rgb(0,0,0,0.10)] rounded-full px-6 md:px-10 lg:px-12 py-3 max-w-[1427px] border border-white/60' 
+                            : ' px-6 md:px-12 lg:px-24 py-5 border-b border-gray-100 max-w-full'
                     }`}
                 >
                     <div className="flex items-center justify-between">

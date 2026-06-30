@@ -21,16 +21,16 @@ const About = () => {
   }, []);
 
   return (
-    <section className="pt-4 pb-30 px-4 md:px-8 max-w-7xl mx-auto">
+    <section className="  px-4 md:px-8 max-w-7xl mx-auto">
       {/* Title Section */}
       <div className="flex justify-center mb-[20px]">
         <img src={TitleImage} alt="Apa Itu Jakarta" className="w-[500px] h-[120px] object-contain select-none" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div className="grid grid-cols-1 mt-8 md:grid-cols-2 gap-12">
         {/* text sama tombol */}
-        <div className="space-y-6">
-          <h2 className="text-[43px] font-bold text-gray-900 leading-tight">
+        <div className="space-y-6 mt-12">
+          <h2 className="text-[40px] font-bold text-gray-900 leading-tight">
             Jakarta, Kota sejarah<br />& inovasi
           </h2>
           <p className="text-black text-2xl leading-relaxed">
@@ -38,14 +38,14 @@ const About = () => {
             Jakarta memadukan warisan budaya dan semanat modern untuk masa depan
             yang lebih baik
           </p>
-          <button className="flex items-center gap-2 px-3 py-3 border border-red-500 text-red-600 rounded-[15px] font-medium hover:bg-red-50 transition-colors">
+          <button className="flex items-center gap-2 px-4 py-4 border border-red-500 text-red-600 rounded-[15px] font-medium hover:bg-red-50 transition-colors">
             Selengkapnya tentang Jakarta
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
 
         {/* card image */}
-        <div className="relative h-[500px] md:h-[550px] w-full flex justify-center items-center overflow-hidden">
+        <div className="relative h-[500px] md:h-[550px] w-full flex mt-8  overflow-hidden justify-center">
           <div className="relative w-[321px] h-[462px]">
             {CARDS.map((cardImg, index) => {
               const len = CARDS.length;
