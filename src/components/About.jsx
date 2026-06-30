@@ -45,7 +45,7 @@ const About = () => {
         </div>
 
         {/* card image */}
-        <div className="relative h-[500px] md:h-[550px] w-full flex justify-center items-center">
+        <div className="relative h-[500px] md:h-[550px] w-full flex justify-center items-center overflow-hidden">
           <div className="relative w-[321px] h-[462px]">
             {CARDS.map((cardImg, index) => {
               const len = CARDS.length;

@@ -137,7 +137,6 @@ const Navbar = () => {
             {/* Backdrop gelap saat menu mobile terbuka */}
             <div
                 className={`menu-backdrop fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden ${isMobileMenuOpen ? 'menu-open' : ''}`}
-                style={{ top: menuRef.current?.getBoundingClientRect().bottom || 0 }}
                 onClick={() => setIsMobileMenuOpen(false)}
             />
         </>

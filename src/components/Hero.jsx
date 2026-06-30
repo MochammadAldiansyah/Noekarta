@@ -197,6 +197,36 @@ const Hero = () => {
 
     // Sequence dibagi dua: judul dulu di top, lalu card setelah viewport turun sedikit.
     useEffect(() => {
+        const isTouch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+        
+        if (isTouch) {
+            // Pada mobile, putar animasi otomatis dan biarkan pengguna scroll secara native
+            let currentPhase = 'title';
+            
+            const autoPlayInterval = setInterval(() => {
+                if (currentPhase === 'title') {
+                    if (titleStepRef.current >= titleFrames.length - 1) {
+                        currentPhase = 'cards';
+                        sequencePhaseRef.current = 'cards';
+                        titleStepRef.current = titleFrames.length;
+                        showTitleFrame(titleFrames.length - 1, true);
+                    } else {
+                        titleStepRef.current += 1;
+                        showTitleFrame(titleStepRef.current, true);
+                    }
+                } else if (currentPhase === 'cards') {
+                    if (cardStageRef.current >= timelineCards.length) {
+                        completeScrollSequence();
+                        clearInterval(autoPlayInterval);
+                    } else {
+                        applyCardStage(cardStageRef.current + 1);
+                    }
+                }
+            }, 800);
+
+            return () => clearInterval(autoPlayInterval);
+        }
+
         const shouldControlHeroScroll = () => sequencePhaseRef.current !== 'done';
 
         const handleWheel = (event) => {

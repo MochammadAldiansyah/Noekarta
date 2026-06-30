@@ -90,6 +90,8 @@ const History = () => {
     requestAnimationFrame(animation);
   };
 
+  const isHoverDevice = () => window.matchMedia && window.matchMedia('(hover: hover)').matches;
+
   const handleScroll = () => {
     if (scrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
@@ -97,17 +99,16 @@ const History = () => {
       
       // Mencegah hover trigger saat sedang scrolling
       isScrollingRef.current = true;
-      scrollRef.current.style.pointerEvents = 'none';
       
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
       scrollTimeoutRef.current = setTimeout(() => {
-        if (scrollRef.current) scrollRef.current.style.pointerEvents = 'auto';
         isScrollingRef.current = false;
       }, 300); 
     }
   };
 
   const handleCardHover = (id, event) => {
+    if (!isHoverDevice()) return;
     if (isScrollingRef.current) return;
     
     setActiveCard(id);
@@ -122,6 +123,11 @@ const History = () => {
     }
     setActiveCard(id);
     scrollCardIntoView(event.currentTarget);
+  };
+
+  const handleContainerMouseLeave = () => {
+    if (!isHoverDevice()) return;
+    setActiveCard(1);
   };
 
   const scrollCardIntoView = (card) => {
@@ -181,7 +187,7 @@ const History = () => {
           <div
             ref={scrollRef}
             onScroll={handleScroll}
-            onMouseLeave={() => setActiveCard(1)}
+            onMouseLeave={handleContainerMouseLeave}
             className="flex overflow-x-auto pb-12 pt-4 px-4 -mx-4 gap-6 hide-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
