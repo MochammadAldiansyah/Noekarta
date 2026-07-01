@@ -48,7 +48,6 @@ const CARD_SCROLL_COOLDOWN = 500;
 const Hero = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [visibleCardCount, setVisibleCardCount] = useState(0);
-    const [isAutoPlaying, setIsAutoPlaying] = useState(false);
     const [opacity, setOpacity] = useState(1);
 
     const containerRef = useRef(null);
@@ -56,9 +55,8 @@ const Hero = () => {
     const heroRef = useRef(null);
     const cardsRef = useRef(null);
     const currentIndexRef = useRef(0);
-    const titleStepRef = useRef(0);
     const cardStageRef = useRef(0);
-    const sequencePhaseRef = useRef('title');
+    const sequencePhaseRef = useRef('cards'); 
     const fadeTimeoutRef = useRef(null);
     const lastScrollStepAtRef = useRef(0);
     const wheelDeltaRef = useRef(0);
@@ -99,22 +97,9 @@ const Hero = () => {
 
     const applyCardStage = useCallback((nextStage) => {
         const stage = Math.max(0, Math.min(timelineCards.length, nextStage));
-
-        if (cardStageRef.current === stage) {
-            return;
-        }
-
+        if (cardStageRef.current === stage) return;
         cardStageRef.current = stage;
         setVisibleCardCount(stage);
-        setIsAutoPlaying(false);
-    }, []);
-
-    const scrollToCardSequence = useCallback(() => {
-        if (!cardsRef.current) return;
-
-        const cardTop = window.scrollY + cardsRef.current.getBoundingClientRect().top;
-        const targetTop = Math.max(0, cardTop - window.innerHeight * 0.58);
-        window.scrollTo({ top: targetTop, behavior: 'smooth' });
     }, []);
 
     const completeScrollSequence = useCallback(() => {
@@ -122,49 +107,14 @@ const Hero = () => {
         wheelDeltaRef.current = 0;
         cardStageRef.current = timelineCards.length;
         setVisibleCardCount(timelineCards.length);
-        setIsAutoPlaying(true);
+        if (window.lenis) window.lenis.start();
     }, []);
-
-    const enterCardSequence = useCallback(() => {
-        sequencePhaseRef.current = 'cards';
-        wheelDeltaRef.current = 0;
-        titleStepRef.current = titleFrames.length;
-        setIsAutoPlaying(false);
-        showTitleFrame(titleFrames.length - 1, true);
-        window.setTimeout(scrollToCardSequence, 120);
-    }, [scrollToCardSequence, showTitleFrame]);
-
-    const stepTitleSequence = useCallback((direction) => {
-        if (direction < 0) {
-            if (titleStepRef.current === 0) return;
-
-            titleStepRef.current -= 1;
-            showTitleFrame(Math.min(titleStepRef.current, titleFrames.length - 1), true);
-            return;
-        }
-
-        const nextStep = titleStepRef.current + 1;
-        titleStepRef.current = nextStep;
-
-        if (nextStep >= titleFrames.length) {
-            enterCardSequence();
-            return;
-        }
-
-        showTitleFrame(nextStep, true);
-    }, [enterCardSequence, showTitleFrame]);
 
     const stepCardSequence = useCallback((direction) => {
         if (direction < 0) {
             if (cardStageRef.current > 0) {
                 applyCardStage(cardStageRef.current - 1);
-                return;
             }
-
-            sequencePhaseRef.current = 'title';
-            titleStepRef.current = titleFrames.length - 1;
-            showTitleFrame(titleFrames.length - 1, true);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
         }
 
@@ -174,53 +124,30 @@ const Hero = () => {
         if (nextStage === timelineCards.length) {
             window.setTimeout(completeScrollSequence, 360);
         }
-    }, [applyCardStage, completeScrollSequence, showTitleFrame]);
+    }, [applyCardStage, completeScrollSequence]);
 
     const stepScrollSequence = useCallback((direction) => {
         const now = window.performance.now();
 
-        const cooldown = sequencePhaseRef.current === 'title' ? TITLE_SCROLL_COOLDOWN : CARD_SCROLL_COOLDOWN;
-
-        if (sequencePhaseRef.current === 'done' || now - lastScrollStepAtRef.current < cooldown) {
-            return;
-        }
-
-        if (sequencePhaseRef.current === 'title') {
-            lastScrollStepAtRef.current = now;
-            stepTitleSequence(direction);
+        if (sequencePhaseRef.current === 'done' || now - lastScrollStepAtRef.current < CARD_SCROLL_COOLDOWN) {
             return;
         }
 
         lastScrollStepAtRef.current = now;
         stepCardSequence(direction);
-    }, [stepCardSequence, stepTitleSequence]);
+    }, [stepCardSequence]);
 
-    // Sequence dibagi dua: judul dulu di top, lalu card setelah viewport turun sedikit.
     useEffect(() => {
         const isTouch = window.matchMedia && window.matchMedia('(hover: none)').matches;
         
         if (isTouch) {
             // Pada mobile, putar animasi otomatis dan biarkan pengguna scroll secara native
-            let currentPhase = 'title';
-            
             const autoPlayInterval = setInterval(() => {
-                if (currentPhase === 'title') {
-                    if (titleStepRef.current >= titleFrames.length - 1) {
-                        currentPhase = 'cards';
-                        sequencePhaseRef.current = 'cards';
-                        titleStepRef.current = titleFrames.length;
-                        showTitleFrame(titleFrames.length - 1, true);
-                    } else {
-                        titleStepRef.current += 1;
-                        showTitleFrame(titleStepRef.current, true);
-                    }
-                } else if (currentPhase === 'cards') {
-                    if (cardStageRef.current >= timelineCards.length) {
-                        completeScrollSequence();
-                        clearInterval(autoPlayInterval);
-                    } else {
-                        applyCardStage(cardStageRef.current + 1);
-                    }
+                if (cardStageRef.current >= timelineCards.length) {
+                    completeScrollSequence();
+                    clearInterval(autoPlayInterval);
+                } else {
+                    applyCardStage(cardStageRef.current + 1);
                 }
             }, 800);
 
@@ -229,11 +156,23 @@ const Hero = () => {
 
         const shouldControlHeroScroll = () => sequencePhaseRef.current !== 'done';
 
+        // Check initially to freeze Lenis
+        if (shouldControlHeroScroll()) {
+            if (window.scrollY <= 10) {
+                setTimeout(() => {
+                    if (window.lenis) window.lenis.stop();
+                    window.scrollTo(0, 0);
+                }, 50);
+            } else {
+                completeScrollSequence();
+            }
+        }
+
         const handleWheel = (event) => {
             if (!shouldControlHeroScroll() || event.deltaY === 0) return;
-
-            const direction = event.deltaY > 0 ? 1 : -1;
-            if (direction < 0 && sequencePhaseRef.current === 'title' && titleStepRef.current === 0) return;
+            
+            // Allow native scroll if trying to scroll up when at the first card stage
+            if (event.deltaY < 0 && cardStageRef.current === 0) return;
 
             event.preventDefault();
             wheelDeltaRef.current += Math.abs(event.deltaY);
@@ -241,7 +180,7 @@ const Hero = () => {
             if (wheelDeltaRef.current < SCROLL_STEP_DELTA) return;
 
             wheelDeltaRef.current = 0;
-            stepScrollSequence(direction);
+            stepScrollSequence(event.deltaY > 0 ? 1 : -1);
         };
 
         const handleKeyDown = (event) => {
@@ -258,6 +197,7 @@ const Hero = () => {
             }
 
             if (upKeys.includes(event.key) || isSpaceUp) {
+                if (cardStageRef.current === 0) return;
                 event.preventDefault();
                 stepScrollSequence(-1);
             }
@@ -274,7 +214,7 @@ const Hero = () => {
             const deltaY = touchStartYRef.current - currentY;
 
             if (Math.abs(deltaY) < 36) return;
-            if (deltaY < 0 && sequencePhaseRef.current === 'title' && titleStepRef.current === 0) return;
+            if (deltaY < 0 && cardStageRef.current === 0) return;
 
             event.preventDefault();
             touchStartYRef.current = currentY;
@@ -305,16 +245,14 @@ const Hero = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, [updateContainerWidth]);
 
-    // Setelah card sequence selesai, judul kembali berputar otomatis.
+    // Judul berputar otomatis setiap 5 detik tanpa peduli scroll state
     useEffect(() => {
-        if (!isAutoPlaying) return undefined;
-
         const interval = setInterval(() => {
             showTitleFrame(currentIndexRef.current + 1, true);
-        }, 3000);
+        }, 5000);
 
         return () => clearInterval(interval);
-    }, [isAutoPlaying, showTitleFrame]);
+    }, [showTitleFrame]);
 
     useEffect(() => {
         return () => {
@@ -334,7 +272,7 @@ const Hero = () => {
        
                 <div className="flex items-center justify-center whitespace-nowrap gap-1 sm:gap-2 md:gap-4 lg:gap-5 xl:gap-6 text-2xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black tracking-tight leading-[1.2] md:leading-[1.1]">
                     <span>Dari Jejak</span>
-                    {/* Pembungkus untuk gambar. Skala disesuaikan agar tidak melebihi batas */}
+                    {/* Pembungkus untuk gambar*/}
                     <div
                         ref={containerRef}
                         className="flex items-center justify-center h-6 sm:h-8 md:h-12 lg:h-16 xl:h-24 transition-[width] duration-500 ease-in-out"
@@ -403,8 +341,6 @@ const Hero = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Spacer biar konten di bawah hero ga ketimpa kartu */}
         
         </section>
     );

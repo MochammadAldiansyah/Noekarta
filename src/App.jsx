@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import History from './components/history';
+import BetawiHeritage from './components/BetawiHeritage';
 import 'lenis/dist/lenis.css';
 import './index.css';
 
@@ -14,6 +15,8 @@ function App() {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smooth: true,
     });
+    
+    window.lenis = lenis;
 
     function raf(time) {
       lenis.raf(time);
@@ -33,6 +36,7 @@ function App() {
       <Hero />
       <About />
       <History />
+      <BetawiHeritage />
     </div>
   )
 }
