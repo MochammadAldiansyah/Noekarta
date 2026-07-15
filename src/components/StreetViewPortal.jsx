@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { X, Loader2 } from 'lucide-react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import logo from '../assets/logo-noekarta.png';
+import logo from '../assets/logo-noekarta2.png';
 
 gsap.registerPlugin(useGSAP);
 
@@ -128,7 +128,7 @@ const StreetViewPortal = ({ landmark, onClose }) => {
                         ref={uiRef}
                         className="bg-black/60 backdrop-blur-md px-5 py-4 md:px-6 md:py-5 rounded-2xl text-white pointer-events-auto shadow-2xl border border-white/10 max-w-md"
                     >
-                        <img src={logo} alt="Noekarta" className="mb-4 h-6 object-contain md:h-7" />
+                        <img src={logo} alt="Noekarta" className="mb-4 h-6 select-none object-contain md:h-7" />
                         <div className="flex flex-wrap items-center gap-3">
                             <h2 className="text-lg md:text-xl font-bold leading-tight">
                                 {landmark.title}

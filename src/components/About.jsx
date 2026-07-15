@@ -112,7 +112,7 @@ const About = () => {
             />
           </div>
 
-          <h2 className="text-[32px] md:text-[38px] font-bold text-gray-900 leading-tight relative z-10">
+          <h2 className="text-[32px] md:text-[38px] font-ancizar font-bold text-gray-900 leading-tight relative z-10">
             Jakarta, Kota sejarah<br />& inovasi
           </h2>
           
