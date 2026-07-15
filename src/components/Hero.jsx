@@ -194,7 +194,7 @@ const Hero = () => {
             <img
                 src={cardfly2}
                 alt="50+ Kuliner Khas"
-                className="hidden lg:block selecg-none absolute z-20"
+                className="hidden lg:block select-none absolute z-20"
                 style={{ right: '10%', top: '1%', width: 250, animation: 'float-card-2 9s ease-in-out infinite' }}
             />
             {/* Bottom-left: 6 Kota Sejarah */}
