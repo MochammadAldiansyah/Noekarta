@@ -11,6 +11,7 @@ import History from './components/history';
 import BetawiHeritage from './components/BetawiHeritage';
 import KulinerJakarta from './components/KulinerJakarta';
 import NoeQuiz from './components/NoeQuiz';
+import Seo from './components/Seo';
 
 const LandmarkPage = lazy(() => import('./pages/LandmarkPage'));
 const ApaItuJakartaPage = lazy(() => import('./pages/ApaItuJakartaPage'));
@@ -76,6 +77,10 @@ function LandingPage() {
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] font-poppins" ref={containerRef}>
+      <Seo
+        title="Jelajahi Jakarta"
+        description="Jelajahi sejarah, budaya Betawi, kuliner khas, landmark, dan cerita Jakarta melalui pengalaman interaktif dari Noekarta."
+      />
       <Navbar />
       <Hero />
       <div className="gsap-section"><About /></div>
