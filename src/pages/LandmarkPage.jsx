@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { ChevronLeft, MapPin } from 'lucide-react';
 import L from 'leaflet';
 import { landmarks } from '../data/landmarks';
-import logo from '../assets/logo-noekarta.png';
+import logo from '../assets/logo-noekarta.webp';
 import StreetViewPortal from '../components/StreetViewPortal';
 
 const PLACEHOLDER_IMAGE = 'https://placehold.co/600x400/f87171/ffffff?text=Image+Not+Available';
