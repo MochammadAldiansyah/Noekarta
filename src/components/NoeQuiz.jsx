@@ -407,7 +407,7 @@ const NoeQuiz = () => {
         </svg>
 
         <div className="absolute left-[20%] top-[9%] z-20 flex -translate-x-1/2 flex-col items-center">
-          <div className="flex h-11 w-11 items-center justify-center rounded-full border-4 border-white bg-[#272C39] text-white shadow-lg"><Flag className="h-4 w-4" /></div>
+          <div className="flex h-13 w-13 items-center justify-center rounded-full border-4 border-white bg-[#272C39] text-white shadow-lg"><Flag className="h-5 w-5" /></div>
           <span className="mt-2 text-[10px] font-bold text-[#0A1B3F]">MULAI</span>
         </div>
 
@@ -440,8 +440,8 @@ const NoeQuiz = () => {
         })}
 
         <div className="absolute left-[80%] top-[73%] z-20 flex -translate-x-1/2 flex-col items-center">
-          <div className={`flex h-11 w-11 items-center justify-center rounded-full border-4 border-white text-white shadow-lg transition-colors ${posData.at(-1).isCompleted ? 'bg-[#3522E7] ring-4 ring-[#B6AEFF]/80' : 'bg-[#272C39]'}`}>
-            {posData.at(-1).isCompleted ? <Check className="h-5 w-5" strokeWidth={3} /> : <Flag className="h-4 w-4" />}
+          <div className={`flex h-13 w-13 items-center justify-center rounded-full border-4 border-white text-white shadow-lg transition-colors ${posData.at(-1).isCompleted ? 'bg-[#3522E7] ring-4 ring-[#B6AEFF]/80' : 'bg-[#272C39]'}`}>
+            {posData.at(-1).isCompleted ? <Check className="h-5 w-5" strokeWidth={3} /> : <Flag className="h-5 w-5" />}
           </div>
           <span className="mt-2 text-[10px] font-bold text-[#0A1B3F]">SELESAI</span>
         </div>
