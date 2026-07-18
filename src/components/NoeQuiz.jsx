@@ -1,53 +1,28 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, Flag, LockKeyhole, MapPin, X } from 'lucide-react';
+import { Check, Flag, LockKeyhole, MapPin, X, ArrowLeft } from 'lucide-react';
 import maskot from '../assets/noekarta-maskot.webp';
 import titleImage from '../assets/noequiz-title.webp';
 import component3 from '../assets/components/component3.webp';
 import component5 from '../assets/components/component5.webp';
-import quizBackground from '../assets/background-noequiz.png';
+import component6 from '../assets/components/component6.webp';
+import component7 from '../assets/components/component7.webp';
+import logoNoekarta from '../assets/logo-noekarta.webp';
+import quizBackground from '../assets/background-noequiz.webp';
 
 const stations = [
   {
     title: 'Sejarah Batavia',
-    questions: [
-      ['Jakarta pernah bernama Batavia pada masa kolonial Belanda.', true],
-      ['Sunda Kelapa merupakan pelabuhan bersejarah di Jakarta Utara.', true],
-      ['Kota Tua Jakarta dahulu menjadi pusat pemerintahan Batavia.', true],
-      ['Nama Jayakarta digunakan jauh setelah Indonesia merdeka.', false],
-      ['Museum Fatahillah berada di kawasan Kota Tua Jakarta.', true],
-    ],
   },
   {
     title: 'Budaya Betawi',
-    questions: [
-      ['Ondel-ondel merupakan salah satu ikon budaya Betawi.', true],
-      ['Kerak telor adalah makanan khas dari Sulawesi Selatan.', false],
-      ['Tanjidor adalah kesenian musik tradisional Betawi.', true],
-      ['Rumah Kebaya merupakan rumah adat Betawi.', true],
-      ['Bahasa Betawi tidak dipengaruhi bahasa Melayu.', false],
-    ],
   },
   {
     title: 'Kuliner Khas',
-    questions: [
-      ['Soto Betawi umumnya menggunakan kuah santan atau susu.', true],
-      ['Asinan Betawi dibuat tanpa sayuran atau buah.', false],
-      ['Gabus pucung adalah kuliner khas Betawi.', true],
-      ['Kerak telor dimasak menggunakan telur bebek atau ayam.', true],
-      ['Bir pletok adalah minuman beralkohol.', false],
-    ],
   },
   {
     title: 'Landmark Jakarta',
-    questions: [
-      ['Monas berada di Lapangan Merdeka, Jakarta Pusat.', true],
-      ['Kota Tua Jakarta berada di Jakarta Selatan.', false],
-      ['Bundaran HI memiliki Monumen Selamat Datang.', true],
-      ['Jembatan Kota Intan merupakan peninggalan era kolonial.', true],
-      ['Ancol adalah kawasan pegunungan di Jakarta.', false],
-    ],
   },
 ];
 
@@ -194,26 +169,73 @@ const TutorialModal = ({ isOpen, onClose }) => {
 };
 
 const QuizModal = ({ station, onClose, onAnswer, onFinish }) => {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
+  const [modalState, setModalState] = useState('confirm'); // 'confirm', 'countdown', 'quiz'
+  const [countdown, setCountdown] = useState(3);
+  const [timeLeft, setTimeLeft] = useState(20);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [isTextLarge, setIsTextLarge] = useState(false);
+
+  // Stop Lenis & lock body scroll when modal is open
+  useEffect(() => {
+    if (station) {
+      if (window.lenis) window.lenis.stop();
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+
+      return () => {
+        if (window.lenis) window.lenis.start();
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+      };
+    }
+  }, [station]);
+
+  // Dummy question
+  const dummyQuestion = {
+    title: station?.title || "Sejarah Batavia",
+    text: "Lorem ipsum dolor sit amet, adipiscing in proident dolore aute qui. Quis eu sunt minim aliqua ............ deserunt non exercitation do ullamco.",
+    options: [
+      { id: 1, text: "Lorep Dolor gg", isCorrect: true },
+      { id: 2, text: "Lorep Dolor gg", isCorrect: false },
+      { id: 3, text: "Lorep Dolor gg", isCorrect: false },
+      { id: 4, text: "Lorep Dolor gg", isCorrect: false },
+    ]
+  };
+
+  useEffect(() => {
+    if (modalState === 'countdown') {
+      if (countdown > 0) {
+        const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+        return () => clearTimeout(timer);
+      } else {
+        setModalState('quiz');
+      }
+    }
+  }, [modalState, countdown]);
+
+  useEffect(() => {
+    if (modalState === 'quiz' && !hasSubmitted) {
+      if (timeLeft > 0) {
+        const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+        return () => clearTimeout(timer);
+      } else {
+        // Auto submit if time runs out
+        setHasSubmitted(true);
+        if (selectedOption) {
+          onAnswer(dummyQuestion.options.find(o => o.id === selectedOption)?.isCorrect || false);
+        } else {
+          onAnswer(false);
+        }
+      }
+    }
+  }, [modalState, timeLeft, hasSubmitted, selectedOption, onAnswer, dummyQuestion.options]);
 
   if (!station) return null;
 
-  const answer = (value) => {
-    const isCorrect = value === station.questions[currentQuestion][1];
-    const nextCorrectAnswers = correctAnswers + Number(isCorrect);
-    onAnswer(isCorrect);
-
-    if (currentQuestion === station.questions.length - 1) {
-      setCorrectAnswers(nextCorrectAnswers);
-      setIsComplete(true);
-      return;
-    }
-
-    setCorrectAnswers(nextCorrectAnswers);
-    setCurrentQuestion((question) => question + 1);
-  };
+  const radius = 38;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (timeLeft / 20) * circumference;
 
   return createPortal(
     <AnimatePresence>
@@ -225,59 +247,161 @@ const QuizModal = ({ station, onClose, onAnswer, onFinish }) => {
         exit={{ opacity: 0 }}
       >
         <motion.div
-          className="w-full max-w-lg rounded-[28px] bg-white p-6 shadow-2xl sm:p-8"
+          className={`relative w-full bg-[#F8F9FA] shadow-2xl ${modalState === 'quiz' ? 'max-w-[660px] max-h-[85vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] rounded-[28px]' : 'max-w-md overflow-hidden rounded-[24px]'}`}
           initial={{ opacity: 0, y: 24, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 24, scale: 0.98 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="mb-7 flex items-start justify-between gap-4">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-[0.14em] text-[#1555C0]">Pos Petualangan</span>
-              <h3 className="mt-1 text-2xl font-bold text-[#0A1B3F]">{station.title}</h3>
+          {modalState === 'confirm' && (
+            <div className="p-8 text-center bg-white">
+              <h3 className="mb-8 text-2xl font-bold text-[#0A1B3F]">Apakah anda sudah siap?</h3>
+              <div className="flex justify-center gap-4">
+                <button onClick={onClose} className="w-32 rounded-full border-2 border-slate-300 py-3 font-bold text-slate-600 transition hover:bg-slate-100 cursor-pointer">
+                  Tidak
+                </button>
+                <button onClick={() => setModalState('countdown')} className="w-32 rounded-full bg-[#0A4BB3] py-3 font-bold text-white transition hover:bg-[#083E93] cursor-pointer">
+                  Iya
+                </button>
+              </div>
             </div>
-            <button onClick={onClose} className="rounded-full p-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900" aria-label="Tutup kuis">
-              <X className="h-5 w-5" />
-            </button>
-          </div>
+          )}
 
-          {isComplete ? (
-            <div className="text-center">
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF1FF] text-[#1555C0]">
-                <Check className="h-8 w-8" strokeWidth={3} />
-              </div>
-              <h4 className="text-xl font-bold text-[#0A1B3F]">{correctAnswers >= 3 ? 'Pos berhasil diselesaikan!' : 'Yuk, coba lagi!'}</h4>
-              <p className="mt-2 text-sm leading-relaxed text-slate-500">Kamu menjawab <strong className="text-[#0A1B3F]">{correctAnswers}/5</strong> soal dengan benar. Minimal 3 jawaban benar untuk membuka pos berikutnya.</p>
-              <button
-                onClick={() => {
-                  if (correctAnswers >= 3) {
-                    onFinish(correctAnswers);
-                    return;
-                  }
-                  setCurrentQuestion(0);
-                  setCorrectAnswers(0);
-                  setIsComplete(false);
-                }}
-                className="mt-7 w-full rounded-full bg-[#0A4BB3] py-3 text-sm font-bold text-white transition hover:bg-[#083E93]"
+          {modalState === 'countdown' && (
+            <div className="flex h-64 items-center justify-center bg-white p-8">
+              <motion.div
+                key={countdown}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.5 }}
+                className="text-8xl font-black text-[#0A4BB3]"
               >
-                {correctAnswers >= 3 ? 'Lanjutkan Petualangan' : 'Ulangi Pos Ini'}
-              </button>
+                {countdown > 0 ? countdown : 'GO!'}
+              </motion.div>
             </div>
-          ) : (
-            <>
-              <div className="mb-5 flex items-center justify-between text-xs font-bold text-slate-400">
-                <span>SOAL {currentQuestion + 1} DARI {station.questions.length}</span>
-                <span className="text-[#1555C0]">{Math.round(((currentQuestion + 1) / station.questions.length) * 100)}%</span>
+          )}
+
+          {modalState === 'quiz' && (
+            <div className="flex flex-col min-h-0 bg-white rounded-[28px]">
+              {/* Layer 2: Dark blue container (inside white card) */}
+              <div 
+                className="relative flex h-[140px] sm:h-[150px] flex-col px-6 pt-5 sm:px-8 mx-2 mt-2 sm:mx-3 sm:mt-3"
+                style={{
+                  backgroundColor: '#111A5A',
+                  backgroundImage: `url(${component7})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  borderRadius: '24px',
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <button onClick={onClose} className="rounded-full p-2 text-white transition hover:bg-white/20 cursor-pointer">
+                    <ArrowLeft className="h-5 w-5" />
+                  </button>
+                  <button onClick={() => setIsTextLarge(!isTextLarge)} className="flex items-center justify-center p-2 text-white transition hover:bg-white/20 cursor-pointer">
+                    <img src={component6} alt="Text Size" className="h-5 w-auto object-contain brightness-0 invert" />
+                  </button>
+                </div>
               </div>
-              <div className="mb-7 h-1.5 overflow-hidden rounded-full bg-[#E8EEF9]">
-                <div className="h-full rounded-full bg-[#1555C0] transition-all duration-300" style={{ width: `${((currentQuestion + 1) / station.questions.length) * 100}%` }} />
+
+              {/* Layer 3: Question card overlapping the blue container */}
+              <div className="relative z-10 -mt-12 mx-4 sm:mx-6">
+                {/* Timer Circle - anchored to the top of the question card */}
+                <div className="absolute -top-10 left-1/2 flex h-[80px] w-[80px] -translate-x-1/2 items-center justify-center rounded-full bg-white shadow-md z-20">
+                  <svg className="absolute inset-0 h-full w-full -rotate-90 transform" viewBox="0 0 80 80">
+                    <circle cx="40" cy="40" r="34" fill="none" stroke="#E5E7EB" strokeWidth="4.5" />
+                    <circle 
+                      cx="40" cy="40" r="34" fill="none" stroke="#111A5A" strokeWidth="4.5"
+                      strokeDasharray={2 * Math.PI * 34}
+                      strokeDashoffset={(2 * Math.PI * 34) - (timeLeft / 20) * (2 * Math.PI * 34)}
+                      strokeLinecap="round"
+                      className="transition-all duration-1000 ease-linear"
+                    />
+                  </svg>
+                  <span className="relative text-lg font-bold text-[#111A5A]">{timeLeft}</span>
+                </div>
+
+                <div className="rounded-[18px] bg-white p-5 pt-12 sm:p-6 sm:pt-12 shadow-sm border border-gray-100">
+                  <div className="mb-3 flex items-center justify-between border-b border-gray-100 pb-3">
+                    <div className="flex items-center gap-2">
+                      <img src={logoNoekarta} alt="Noekarta" className="h-6 w-auto object-contain" />
+                      <div className="h-3.5 w-px bg-gray-300 mx-1.5"></div>
+                      <img src={component5} alt="Logo 2" className="h-3.5 w-auto object-contain" />
+                    </div>
+                    <span className="text-xs sm:text-sm font-semibold text-[#111A5A]">Question 1/5</span>
+                  </div>
+                  
+                  <div className="text-center">
+                    <h3 className={`mb-2 font-bold text-[#111A5A] transition-all ${isTextLarge ? 'text-lg sm:text-xl' : 'text-base sm:text-lg'}`}>{dummyQuestion.title}</h3>
+                    <p className={`font-medium leading-relaxed text-gray-700 transition-all ${isTextLarge ? 'text-[15px] sm:text-[16px]' : 'text-[13px] sm:text-[14px]'}`}>
+                      {dummyQuestion.text}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <p className="min-h-20 text-lg font-semibold leading-relaxed text-[#0A1B3F]">{station.questions[currentQuestion][0]}</p>
-              <div className="mt-7 grid grid-cols-2 gap-3">
-                <button onClick={() => answer(true)} className="rounded-2xl border-2 border-[#1555C0] py-3 font-bold text-[#1555C0] transition hover:bg-[#1555C0] hover:text-white">Benar</button>
-                <button onClick={() => answer(false)} className="rounded-2xl border-2 border-slate-300 py-3 font-bold text-slate-600 transition hover:border-slate-600 hover:bg-slate-700 hover:text-white">Salah</button>
+
+              {/* Options & Submit - white area */}
+              <div className="px-4 pb-6 pt-4 sm:px-6">
+                <div className="space-y-2.5">
+                  {dummyQuestion.options.map((option) => {
+                    let optionStyle = "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50 text-gray-800";
+                    let showIcon = null;
+
+                    if (hasSubmitted) {
+                      if (option.isCorrect) {
+                        optionStyle = "border-green-500 bg-white text-gray-800 shadow-sm";
+                        showIcon = <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-500"><Check className="h-3.5 w-3.5 text-white" strokeWidth={3.5} /></div>;
+                      } else if (selectedOption === option.id) {
+                        optionStyle = "border-red-500 bg-white text-gray-800 shadow-sm";
+                        showIcon = <div className="flex h-5 w-5 items-center justify-center rounded-full bg-red-500"><X className="h-3.5 w-3.5 text-white" strokeWidth={3.5} /></div>;
+                      } else {
+                        optionStyle = "border-gray-200 bg-white text-gray-800 opacity-60";
+                      }
+                    } else if (selectedOption === option.id) {
+                      optionStyle = "border-[#0A4BB3] bg-white text-gray-800";
+                    }
+
+                    return (
+                      <button
+                        key={option.id}
+                        disabled={hasSubmitted}
+                        onClick={() => setSelectedOption(option.id)}
+                        className={`flex w-full items-center justify-between rounded-[14px] border-2 px-5 py-3 text-left transition-all cursor-pointer ${optionStyle}`}
+                      >
+                        <span className={`font-semibold transition-all ${isTextLarge ? 'text-base' : 'text-sm'}`}>{option.text}</span>
+                        {hasSubmitted && showIcon ? (
+                          showIcon
+                        ) : (
+                          <div className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${selectedOption === option.id ? 'border-[#0A4BB3]' : 'border-gray-300'}`}>
+                            {selectedOption === option.id && <div className="h-2.5 w-2.5 rounded-full bg-[#0A4BB3]"></div>}
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  disabled={!selectedOption && !hasSubmitted}
+                  onClick={() => {
+                    if (!hasSubmitted) {
+                      setHasSubmitted(true);
+                      onAnswer(dummyQuestion.options.find(o => o.id === selectedOption)?.isCorrect || false);
+                    } else {
+                      onFinish(1); // dummy close/finish
+                    }
+                  }}
+                  className={`mt-5 w-full rounded-[12px] py-3 text-sm font-bold text-white transition ${
+                    (!selectedOption && !hasSubmitted) 
+                      ? 'cursor-not-allowed bg-gray-200 text-gray-400' 
+                      : 'bg-[#0A4BB3] hover:bg-[#083E93] shadow-md cursor-pointer'
+                  }`}
+                >
+                  Kirim
+                </button>
               </div>
-            </>
+            </div>
           )}
         </motion.div>
       </motion.div>
@@ -318,7 +442,7 @@ const NoeQuiz = () => {
 
   return (
     <section
-      className="relative mx-auto max-w-7xl overflow-visible rounded-[30px] border border-[#DDE6FB] bg-[#EEF3FF] p-4 md:p-5"
+      className="relative mx-auto max-w-auto overflow-visible rounded-[30px] bg-[#EEF3FF] p-4 md:p-5"
       style={{ backgroundImage: `linear-gradient(rgba(241, 245, 255, 0.34), rgba(241, 245, 255, 0.48)), url(${quizBackground})`, backgroundPosition: 'center', backgroundSize: '100% 100%' }}
     >
       <div className="w-full flex flex-col mt-18 lg:flex-row items-stretch gap-6 lg:gap-8">
@@ -331,7 +455,7 @@ const NoeQuiz = () => {
               </div>
 
               <p className="text-[#3A3A3A] text-sm md:text-[15px] leading-relaxed mb-8">
-                Selesaikan Tantangan si setiap pos dengan skor minimal 3/5 benar untuk membuka pos selanjutnya. Mari taklukkan semua level!
+                Selesaikan Tantangan di setiap pos dengan skor minimal 3/5 benar untuk membuka pos selanjutnya. Mari taklukkan semua level!
               </p>
 
               <button
