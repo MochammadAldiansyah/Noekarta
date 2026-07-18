@@ -284,7 +284,7 @@ const QuizModal = ({ station, onClose, onAnswer, onFinish }) => {
           {modalState === 'quiz' && (
             <div className="flex flex-col min-h-0 bg-white rounded-[28px]">
               {/* Layer 2: Dark blue container (inside white card) */}
-              <div 
+              <div
                 className="relative flex h-[140px] sm:h-[150px] flex-col px-6 pt-5 sm:px-8 mx-2 mt-2 sm:mx-3 sm:mt-3"
                 style={{
                   backgroundColor: '#111A5A',
@@ -310,7 +310,7 @@ const QuizModal = ({ station, onClose, onAnswer, onFinish }) => {
                 <div className="absolute -top-10 left-1/2 flex h-[80px] w-[80px] -translate-x-1/2 items-center justify-center rounded-full bg-white shadow-md z-20">
                   <svg className="absolute inset-0 h-full w-full -rotate-90 transform" viewBox="0 0 80 80">
                     <circle cx="40" cy="40" r="34" fill="none" stroke="#E5E7EB" strokeWidth="4.5" />
-                    <circle 
+                    <circle
                       cx="40" cy="40" r="34" fill="none" stroke="#111A5A" strokeWidth="4.5"
                       strokeDasharray={2 * Math.PI * 34}
                       strokeDashoffset={(2 * Math.PI * 34) - (timeLeft / 20) * (2 * Math.PI * 34)}
@@ -330,7 +330,7 @@ const QuizModal = ({ station, onClose, onAnswer, onFinish }) => {
                     </div>
                     <span className="text-xs sm:text-sm font-semibold text-[#111A5A]">Question 1/5</span>
                   </div>
-                  
+
                   <div className="text-center">
                     <h3 className={`mb-2 font-bold text-[#111A5A] transition-all ${isTextLarge ? 'text-lg sm:text-xl' : 'text-base sm:text-lg'}`}>{dummyQuestion.title}</h3>
                     <p className={`font-medium leading-relaxed text-gray-700 transition-all ${isTextLarge ? 'text-[15px] sm:text-[16px]' : 'text-[13px] sm:text-[14px]'}`}>
@@ -392,11 +392,10 @@ const QuizModal = ({ station, onClose, onAnswer, onFinish }) => {
                       onFinish(1); // dummy close/finish
                     }
                   }}
-                  className={`mt-5 w-full rounded-[12px] py-3 text-sm font-bold text-white transition ${
-                    (!selectedOption && !hasSubmitted) 
-                      ? 'cursor-not-allowed bg-gray-200 text-gray-400' 
+                  className={`mt-5 w-full rounded-[12px] py-3 text-sm font-bold text-white transition ${(!selectedOption && !hasSubmitted)
+                      ? 'cursor-not-allowed bg-gray-200 text-gray-400'
                       : 'bg-[#0A4BB3] hover:bg-[#083E93] shadow-md cursor-pointer'
-                  }`}
+                    }`}
                 >
                   Kirim
                 </button>
@@ -459,9 +458,9 @@ const NoeQuiz = () => {
               </p>
 
               <button
-              onClick={() => setIsTutorialOpen(true)}
-              className="bg-[#0A2E6D] hover:bg-[#0d3a8a] text-white font-semibold sm:px-18 lg:px-14 xl:px-24 py-1 rounded-full transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-blue-900/20 active:scale-[0.98]">
-              Tutorial! 
+                onClick={() => setIsTutorialOpen(true)}
+                className="bg-[#0A2E6D] hover:bg-[#0d3a8a] text-white font-semibold sm:px-18 lg:px-14 xl:px-24 py-1 rounded-full transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-blue-900/20 active:scale-[0.98]">
+                Tutorial!
               </button>
             </div>
           </div>
