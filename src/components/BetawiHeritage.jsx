@@ -75,6 +75,7 @@ const ImagePage = forwardRef(({ img }, ref) => (
     <img
       src={img}
       alt=""
+      className="select-none"
       style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
     />
   </div>
@@ -107,6 +108,7 @@ const TextPage = forwardRef(({ data }, ref) => (
     <img 
       src={data.infoImg} 
       alt=""
+      className="select-none"
       style={{
         width: '100%',
         height: '100%',
@@ -156,7 +158,7 @@ const BetawiHeritage = () => {
           {/* Left Column: Static Content */}
           <div className="w-full lg:w-[35%] flex flex-col">
             <div className="inline-flex items-center gap-2.5 bg-[#F1F5F9] px-4 py-2 rounded-xl mb-8 w-fit">
-              <img src={component2} alt="icon" className="w-5 h-5 object-contain" />
+              <img src={component2} alt="icon" className="w-5 h-5 object-contain select-none" />
               <span className="text-[#0F285C] font-semibold text-sm">Betawi Heritage Hub</span>
             </div>
 
@@ -255,6 +257,7 @@ const BetawiHeritage = () => {
                   borderRadius: '24px',
                   boxShadow: '0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06)',
                   overflow: 'hidden'
+                
                 }}
               >
                 {betawiData.flatMap((item) => [
@@ -270,7 +273,7 @@ const BetawiHeritage = () => {
                 <img
                   src={betawiData[currentItem].img}
                   alt=""
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover select-none"
                 />
               </div>
               <div className="flex-1 relative bg-white">

@@ -103,7 +103,7 @@ const NoeQuiz = ({ completedStations = [] }) => {
             <div className="bg-white rounded-[24px] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.12)] border border-gray-100 p-6 md:p-8 min-h-[300px] flex flex-col relative overflow-hidden">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
-                  <img src={logoNoekarta} alt="Noekarta" className="h-3.5 md:h-4 w-auto object-contain" />
+                  <img src={logoNoekarta} alt="Noekarta" className="h-3.5 md:h-4 w-auto object-contain select-none" />
                 </div>
                 
                 {/* Timer Circle */}
@@ -205,7 +205,7 @@ const NoeQuiz = ({ completedStations = [] }) => {
                  </div>
                ) : (
                  <div className="w-[60px] h-[60px] rounded-full bg-[#0A1869] border-[4px] border-white text-white flex items-center justify-center relative z-10" style={{ boxShadow: '0 0 0 8px rgba(211, 193, 250, 0.8), 0 0 30px 15px rgba(211, 193, 250, 0.6)' }}>
-                   <img src={component8} alt="Icon Batavia" className="w-7 h-7 object-contain" />
+                   <img src={component8} alt="Icon Batavia" className="w-7 h-7 object-contain select-none" />
                  </div>
                )}
 
@@ -226,7 +226,7 @@ const NoeQuiz = ({ completedStations = [] }) => {
                  </div>
                ) : isBetawiUnlocked ? (
                  <div className="w-[60px] h-[60px] rounded-full bg-[#0A1869] border-[4px] border-white text-white flex items-center justify-center relative z-10" style={{ boxShadow: '0 0 0 8px rgba(168, 219, 255, 0.8), 0 0 30px 15px rgba(168, 219, 255, 0.6)' }}>
-                   <img src={component9} alt="Icon Betawi" className="w-7 h-7 object-contain" />
+                   <img src={component9} alt="Icon Betawi" className="w-7 h-7 object-contain select-none" />
                  </div>
                ) : (
                  <div className="w-[60px] h-[60px] rounded-full bg-[#62646B] border-[4px] border-white text-white flex items-center justify-center relative z-10" style={{ boxShadow: '0 7px 18px rgba(24,54,124,0.28)' }}>
@@ -276,7 +276,7 @@ const NoeQuiz = ({ completedStations = [] }) => {
                  </div>
                ) : (
                  <div className="w-[50px] h-[50px] rounded-full bg-[#0A1869] border-[3px] border-white text-white flex items-center justify-center relative z-10" style={{ boxShadow: '0 0 0 6px rgba(211, 193, 250, 0.8), 0 0 20px 10px rgba(211, 193, 250, 0.6)' }}>
-                   <img src={component8} alt="Icon Batavia" className="w-6 h-6 object-contain" />
+                   <img src={component8} alt="Icon Batavia" className="w-6 h-6 object-contain select-none" />
                  </div>
                )}
                <span className="text-[13px] font-bold mt-4 text-[#1A1856]">Sejarah Batavia</span>
@@ -295,7 +295,7 @@ const NoeQuiz = ({ completedStations = [] }) => {
                  </div>
                ) : isBetawiUnlocked ? (
                  <div className="w-[50px] h-[50px] rounded-full bg-[#0A1869] border-[3px] border-white text-white flex items-center justify-center relative z-10" style={{ boxShadow: '0 0 0 6px rgba(168, 219, 255, 0.8), 0 0 20px 10px rgba(168, 219, 255, 0.6)' }}>
-                   <img src={component9} alt="Icon Betawi" className="w-6 h-6 object-contain" />
+                   <img src={component9} alt="Icon Betawi" className="w-6 h-6 object-contain select-none" />
                  </div>
                ) : (
                  <div className="w-[50px] h-[50px] rounded-full bg-[#62646B] border-[3px] border-white text-white flex items-center justify-center relative z-10" style={{ boxShadow: '0 7px 18px rgba(24,54,124,0.28)' }}>

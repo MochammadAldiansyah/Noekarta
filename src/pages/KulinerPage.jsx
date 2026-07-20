@@ -80,7 +80,7 @@ const KulinerPage = () => {
                     </button>
 
                     <a href="/" className="absolute left-1/2 -translate-x-1/2">
-                        <img src={logo} alt="Noekarta" className="h-8 w-auto" />
+                        <img src={logo} alt="Noekarta" className="h-8 w-auto select-none" />
                     </a>
 
                     <div className="flex items-center gap-2 text-gray-600 text-sm font-medium">
@@ -114,7 +114,7 @@ const KulinerPage = () => {
                         <img
                             src={cardfly}
                             alt="50+ Kuliner Khas"
-                            className="w-[250px] object-contain drop-shadow-sm"
+                            className="w-[250px] object-contain drop-shadow-sm select-none"
                             style={{ animation: 'float-card-2 9s ease-in-out infinite' }}
                         />
                     </div>
@@ -163,7 +163,7 @@ const KulinerPage = () => {
                                 <img
                                     src={item.img}
                                     alt={item.title}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover select-none"
                                     draggable="false"
                                 />
                             </div>

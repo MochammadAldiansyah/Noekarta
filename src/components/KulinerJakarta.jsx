@@ -105,7 +105,7 @@ const KulinerJakarta = () => {
                   <img
                     src={item.img}
                     alt={item.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover select-none"
                     draggable="false"
                   />
                 </div>
@@ -128,7 +128,7 @@ const KulinerJakarta = () => {
                     style={{
                       padding: '8px',
                       borderRadius: '8px',
-                      border: '1px solid #0f285e',
+                      border: '1.5px solid #0f285e',
                       backgroundColor: savedItems.includes(item.id) ? '#0f285e' : 'transparent',
                       color: savedItems.includes(item.id) ? 'white' : '#0f285e',
                       fontSize: '12px',
@@ -136,7 +136,7 @@ const KulinerJakarta = () => {
                     }}
                   >
                     <BookmarkIcon />
-                    {savedItems.includes(item.id) ? 'Batal Menyimpan' : 'Simpan ke Inventory'}
+                    {savedItems.includes(item.id) ? 'Batal Menyimpan' : 'Simpan ke inventory'}
                   </button>
                 </div>
               </div>
