@@ -11,7 +11,7 @@ import component3 from '../assets/components/component3.webp';
 import component5 from '../assets/components/component5.webp';
 import component6 from '../assets/components/component6.webp';
 import component7 from '../assets/components/component7.webp';
-import logoNoekarta from '../assets/logo-noekarta.webp';
+import logoNoekarta from '../assets/logo-noekarta1.webp';
 
 import component8 from '../assets/components/component8.webp';
 import component9 from '../assets/components/component9.webp';
