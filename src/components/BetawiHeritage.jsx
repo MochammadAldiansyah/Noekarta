@@ -2,12 +2,18 @@ import { useState, useRef, forwardRef } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import component2 from '../assets/components/component2.webp';
-import betawi1 from '../assets/image-betawiheritage1.png';
-import betawi2 from '../assets/image-betawiheritage2.png';
-import betawi3 from '../assets/image-betawiheritage3.png';
-import betawi4 from '../assets/image-betawiheritage4.png';
-import betawi5 from '../assets/image-betawiheritage5.png';
-import betawi6 from '../assets/image-betawiheritage6.png';
+import betawi1 from '../assets/image-betawiheritage1.webp';
+import betawi2 from '../assets/image-betawiheritage2.webp';
+import betawi3 from '../assets/image-betawiheritage3.webp';
+import betawi4 from '../assets/image-betawiheritage4.webp';
+import betawi5 from '../assets/image-betawiheritage5.webp';
+import betawi6 from '../assets/image-betawiheritage6.webp';
+import info1 from '../assets/information-betawiheritage1.webp';
+import info2 from '../assets/information-betawiheritage2.webp';
+import info3 from '../assets/information-betawiheritage3.webp';
+import info4 from '../assets/information-betawiheritage4.webp';
+import info5 from '../assets/information-betawiheritage5.webp';
+import info6 from '../assets/information-betawiheritage6.webp';
 
 const betawiData = [
   {
@@ -15,6 +21,7 @@ const betawiData = [
     title: 'Budaya Betawi',
     badge: 'Ondel - Ondel',
     img: betawi1,
+    infoImg: info1,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   },
   {
@@ -22,6 +29,7 @@ const betawiData = [
     title: 'Pakaian Adat Betawi',
     badge: 'Kebaya Encim',
     img: betawi2,
+    infoImg: info2,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   },
   {
@@ -29,6 +37,7 @@ const betawiData = [
     title: 'Kuliner Betawi',
     badge: 'Semur Jengkol',
     img: betawi5,
+    infoImg: info3,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   },
   {
@@ -36,6 +45,7 @@ const betawiData = [
     title: 'Kesenian & Music Betawi',
     badge: 'Rebana Biang',
     img: betawi3,
+    infoImg: info4,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   },
   {
@@ -43,6 +53,7 @@ const betawiData = [
     title: 'Tradisi Betawi',
     badge: 'Ngarak Pengantin',
     img: betawi4,
+    infoImg: info5,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   },
   {
@@ -50,6 +61,7 @@ const betawiData = [
     title: 'Wisata Betawi',
     badge: 'Museum Wayang',
     img: betawi6,
+    infoImg: info6,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   }
 ];
@@ -92,65 +104,17 @@ const TextPage = forwardRef(({ data }, ref) => (
       zIndex: 1
     }} />
 
-    <div style={{
-      position: 'absolute',
-      inset: 0,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      padding: '40px 44px',
-    }}>
-      <span style={{ color: '#0F285C', fontWeight: 700, fontSize: '22px', marginBottom: '8px', fontFamily: 'Poppins, sans-serif' }}>
-        0{data.id}
-      </span>
-
-      <div style={{ height: '76px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', marginBottom: '16px', overflow: 'hidden' }}>
-        <h3 style={{
-          fontSize: '26px',
-          fontWeight: 700,
-          color: '#111827',
-          lineHeight: 1.3,
-          margin: 0,
-          fontFamily: 'Poppins, sans-serif',
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden'
-        }}>
-          {data.title}
-        </h3>
-      </div>
-
-      <div style={{ width: '48px', height: '3px', background: '#0F285C', borderRadius: '9999px', marginBottom: '20px' }} />
-
-      <p style={{
-        color: '#6B7280',
-        fontSize: '14px',
-        lineHeight: 1.7,
-        marginBottom: '28px',
-        height: '72px',
-        overflow: 'hidden',
-        fontFamily: 'Poppins, sans-serif',
-        margin: '0 0 28px 0'
-      }}>
-        {data.desc}
-      </p>
-
-      <div style={{
-        display: 'inline-block',
-        border: '1.5px solid #0F285C',
-        color: '#0F285C',
-        padding: '10px 24px',
-        borderRadius: '9999px',
-        fontSize: '13px',
-        fontWeight: 600,
-        fontFamily: 'Poppins, sans-serif',
-        width: 'fit-content',
-        letterSpacing: '0.05em'
-      }}>
-        {data.badge}
-      </div>
-    </div>
+    <img 
+      src={data.infoImg} 
+      alt=""
+      style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        display: 'block'
+      }}
+      draggable="false"
+    />
   </div>
 ));
 TextPage.displayName = 'TextPage';

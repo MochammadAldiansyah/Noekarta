@@ -26,8 +26,8 @@ const InstagramIcon = ({ className }) => (
 );
 
 import logoNoekarta from '../assets/logo-noekarta2.webp';
-import footerBg from '../assets/components/component-footer.png';
-import monasLogo from '../assets/components/component-footer2.png';
+import footerBg from '../assets/components/component-footer.webp';
+import monasLogo from '../assets/components/component-footer2.webp';
 
 const Footer = () => {
   const monasRef = React.useRef(null);
