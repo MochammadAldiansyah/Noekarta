@@ -16,6 +16,13 @@ import info4 from '../assets/information-betawiheritage4.webp';
 import info5 from '../assets/information-betawiheritage5.webp';
 import info6 from '../assets/information-betawiheritage6.webp';
 
+import infoEng1 from '../assets/information_eng_betawiheritage1.jpeg';
+import infoEng2 from '../assets/information_eng_betawiheritage2.jpeg';
+import infoEng3 from '../assets/information_eng_betawiheritage3.jpeg';
+import infoEng4 from '../assets/information_eng_betawiheritage4.jpeg';
+import infoEng5 from '../assets/information_eng_betawiheritage5.jpeg';
+import infoEng6 from '../assets/information_eng_betawiheritage6.jpeg';
+
 const betawiData = [
   {
     id: 1,
@@ -23,6 +30,7 @@ const betawiData = [
     badge: 'Ondel - Ondel',
     img: betawi1,
     infoImg: info1,
+    infoEngImg: infoEng1,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   },
   {
@@ -31,6 +39,7 @@ const betawiData = [
     badge: 'Kebaya Encim',
     img: betawi2,
     infoImg: info2,
+    infoEngImg: infoEng2,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   },
   {
@@ -39,6 +48,7 @@ const betawiData = [
     badge: 'Semur Jengkol',
     img: betawi5,
     infoImg: info3,
+    infoEngImg: infoEng3,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   },
   {
@@ -47,6 +57,7 @@ const betawiData = [
     badge: 'Rebana Biang',
     img: betawi3,
     infoImg: info4,
+    infoEngImg: infoEng4,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   },
   {
@@ -55,6 +66,7 @@ const betawiData = [
     badge: 'Ngarak Pengantin',
     img: betawi4,
     infoImg: info5,
+    infoEngImg: infoEng5,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   },
   {
@@ -63,6 +75,7 @@ const betawiData = [
     badge: 'Museum Wayang',
     img: betawi6,
     infoImg: info6,
+    infoEngImg: infoEng6,
     desc: 'Budaya asli masyarakat Jakarta yang tercermin dalam bahasa, kesenian kuliner, hingga tradisi sehari-hari'
   }
 ];
@@ -83,7 +96,7 @@ const ImagePage = forwardRef(({ img }, ref) => (
 ));
 ImagePage.displayName = 'ImagePage';
 
-const TextPage = forwardRef(({ data }, ref) => (
+const TextPage = forwardRef(({ data, language }, ref) => (
   <div
     ref={ref}
     style={{
@@ -106,7 +119,7 @@ const TextPage = forwardRef(({ data }, ref) => (
       zIndex: 1
     }} />
     <img
-      src={data.infoImg}
+      src={language === 'en' ? data.infoEngImg : data.infoImg}
       alt=""
       className="select-none"
       style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -116,52 +129,9 @@ const TextPage = forwardRef(({ data }, ref) => (
 ));
 TextPage.displayName = 'TextPage';
 
-// ── Mobile page (image top + text bottom, single page) ─────────────────────
-const CombinedPage = forwardRef(({ data }, ref) => (
-  <div
-    ref={ref}
-    style={{
-      width: '100%',
-      height: '100%',
-      background: '#ffffff',
-      overflow: 'hidden',
-      position: 'relative',
-      boxShadow: 'inset -4px 0 15px rgba(0,0,0,0.03)'
-    }}
-    className="flex flex-col"
-  >
-    {/* Spine shadow */}
-    <div style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '4px',
-      height: '100%',
-      background: 'linear-gradient(to right, rgba(0,0,0,0.08), transparent)',
-      zIndex: 1
-    }} />
-    <div className="w-full aspect-[4/3] shrink-0 relative bg-gray-50">
-      <img
-        src={data.img}
-        alt={data.title}
-        className="absolute inset-0 w-full h-full object-cover select-none"
-        draggable="false"
-      />
-    </div>
-    <div className="flex-1 p-5 flex flex-col justify-center bg-white text-left">
-      <span className="text-[#0F285C] font-bold text-lg mb-1">0{data.id}</span>
-      <h3 className="text-[20px] font-bold text-gray-900 mb-2 leading-snug">{data.title}</h3>
-      <div className="w-8 h-[3px] bg-[#0F285C] mb-3 rounded-full" />
-      <p className="text-gray-600 text-[13px] leading-[1.6] mb-4 line-clamp-3">{data.desc}</p>
-      <div className="inline-block border border-[#0F285C] text-[#0F285C] px-3 py-1 rounded-full text-[12px] font-semibold w-fit">{data.badge}</div>
-    </div>
-  </div>
-));
-CombinedPage.displayName = 'CombinedPage';
-
 // ── Component ──────────────────────────────────────────────────────────────
 const BetawiHeritage = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [currentItem, setCurrentItem] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
   // Two book refs — one per breakpoint
@@ -191,7 +161,7 @@ const BetawiHeritage = () => {
   const handleDotClick = (idx) => {
     if (isFlipping || idx === currentItem) return;
     if (isMobile()) {
-      bookMobile.current?.pageFlip().turnToPage(idx);
+      bookMobile.current?.pageFlip().turnToPage(idx * 2);
     } else {
       bookDesktop.current?.pageFlip().turnToPage(idx * 2);
     }
@@ -202,7 +172,7 @@ const BetawiHeritage = () => {
   };
 
   const onFlipMobile = (e) => {
-    setCurrentItem(e.data);
+    setCurrentItem(Math.floor(e.data / 2));
   };
 
   const onChangeState = (e) => {
@@ -312,7 +282,7 @@ const BetawiHeritage = () => {
                   >
                     {betawiData.flatMap((item) => [
                       <ImagePage key={`img-${item.id}`} img={item.img} />,
-                      <TextPage key={`txt-${item.id}`} data={item} />
+                      <TextPage key={`txt-${item.id}`} data={item} language={language} />
                     ])}
                   </HTMLFlipBook>
                 </div>
@@ -337,9 +307,10 @@ const BetawiHeritage = () => {
                     useMouseEvents={false}
                     style={bookStyle}
                   >
-                    {betawiData.map((item) => (
-                      <CombinedPage key={`page-${item.id}`} data={item} />
-                    ))}
+                    {betawiData.flatMap((item) => [
+                      <ImagePage key={`img-${item.id}`} img={item.img} />,
+                      <TextPage key={`txt-${item.id}`} data={item} language={language} />
+                    ])}
                   </HTMLFlipBook>
                 </div>
 
