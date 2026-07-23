@@ -128,13 +128,27 @@ const TextPage = forwardRef(({ data, language }, ref) => (
         left: 0,
         width: '100%',
         height: '100%',
-        objectFit: 'cover',
+        objectFit: 'contain',
         display: 'block',
-        background: '#ffffff',
-        transform: language === 'en' ? 'scale(1)' : 'none'
+        background: '#ffffff'
       }}
       draggable="false"
     />
+    {/* White corner overlay to hide black artifacts on English info images */}
+    {language === 'en' && (
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          boxShadow: 'inset 0 0 15px 20px #FAFAFA',
+          pointerEvents: 'none',
+          zIndex: 2
+        }}
+      />
+    )}
   </div>
 ));
 TextPage.displayName = 'TextPage';
