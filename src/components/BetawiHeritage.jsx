@@ -122,7 +122,16 @@ const TextPage = forwardRef(({ data, language }, ref) => (
       src={language === 'en' ? data.infoEngImg : data.infoImg}
       alt=""
       className="select-none"
-      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain',
+        display: 'block',
+        background: '#ffffff'
+      }}
       draggable="false"
     />
   </div>
@@ -247,9 +256,9 @@ const BetawiHeritage = () => {
               {/* Prev button */}
               <button
                 onClick={handlePrev}
-                disabled={isFlipping}
+                disabled={isFlipping || currentItem === 0}
                 className={`w-9 h-9 md:w-12 md:h-12 rounded-full border-[1.5px] border-gray-200 flex items-center justify-center transition-all shrink-0 focus:outline-none ${
-                  isFlipping
+                  isFlipping || currentItem === 0
                     ? 'text-gray-200 border-gray-100 cursor-not-allowed opacity-40'
                     : 'text-gray-400 hover:text-gray-700 hover:bg-white hover:shadow-sm hover:border-gray-300 cursor-pointer'
                 }`}
@@ -319,9 +328,9 @@ const BetawiHeritage = () => {
               {/* Next button */}
               <button
                 onClick={handleNext}
-                disabled={isFlipping}
+                disabled={isFlipping || currentItem === betawiData.length - 1}
                 className={`w-9 h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all shrink-0 focus:outline-none ${
-                  isFlipping
+                  isFlipping || currentItem === betawiData.length - 1
                     ? 'bg-[#0F285C]/40 text-white/60 cursor-not-allowed'
                     : 'bg-[#0F285C] text-white hover:bg-[#1E40AF] hover:shadow-lg cursor-pointer'
                 }`}
